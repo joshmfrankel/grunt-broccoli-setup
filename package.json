@@ -1,0 +1,27 @@
+{
+  "name": "grunt-broccoli-setup",
+  "version": "1.0.0",
+  "description": "A grunt and broccoli setup file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:joshmfrankel/grunt-broccoli-setup.git"
+  },
+  "author": "Josh Frankel",
+  "license": "ISC",
+  "devDependencies": {
+    "broccoli": "^0.13.3",
+    "broccoli-concat": "0.0.12",
+    "broccoli-merge-trees": "^0.2.1",
+    "broccoli-sass": "^0.3.3",
+    "broccoli-static-compiler": "^0.2.1",
+    "broccoli-uglify-js": "^0.1.3",
+    "glob": "^4.3.5",
+    "grunt": "^0.4.5",
+    "grunt-notify": "^0.4.1",
+    "load-grunt-tasks": "^2.0.0"
+  }
+}
