@@ -1,16 +1,16 @@
 {
-  "name": "grunt-broccoli-setup",
+  "name": "inventory",
   "version": "1.0.0",
-  "description": "A grunt and broccoli setup file",
+  "description": "The DMOPC inventory system",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:joshmfrankel/grunt-broccoli-setup.git"
+    "url": "git@codebasehq.com:pmsolutions/dmopc/inventory.git"
   },
-  "author": "Josh Frankel",
+  "author": "DMOPC",
   "license": "ISC",
   "devDependencies": {
     "broccoli": "^0.13.3",
@@ -21,7 +21,21 @@
     "broccoli-uglify-js": "^0.1.3",
     "glob": "^4.3.5",
     "grunt": "^0.4.5",
+    "grunt-asciify": "^0.2.2",
+    "grunt-contrib-sass": "^0.8.1",
+    "grunt-contrib-watch": "^0.6.1",
     "grunt-notify": "^0.4.1",
     "load-grunt-tasks": "^2.0.0"
+  },
+  "gruntSettings": {
+    "path": {
+      "directory": "./grunt.js/",
+      "tasks": "tasks/",
+      "plugins": "plugins/",
+      "sass": {
+        "src": "./assets/css/test.scss",
+        "dest": "./assets/css/task.css"
+      }
+    }
   }
 }

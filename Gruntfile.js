@@ -1,8 +1,6 @@
 
 module.exports = function(grunt) {
 
-    var tasksDir = './grunt.js/tasks';
-
     // Initial config
     var config = {
       pkg: grunt.file.readJSON('package.json'),
@@ -10,19 +8,20 @@ module.exports = function(grunt) {
     };
 
     // Merge the initial config with the loaded configuration files
-    grunt.util._.extend(config, loadConfig(tasksDir + '/options/'));
+    grunt.util._.extend(config, loadConfig(config.pkg.gruntSettings.path.directory + config.pkg.gruntSettings.path.plugins));
 
     // Load config
     grunt.initConfig(config);
 
-    //grunt.log.writeln(JSON.stringify(grunt.config(), null, 2));
+    //grunt.log.writeln(JSON.stringify(grunt.config('env').USER, null, 2));
 
     // Require all the plugins
     require('load-grunt-tasks')(grunt);
 
     // Load all the external tasks
-    grunt.loadTasks(tasksDir);
+    grunt.loadTasks(config.pkg.gruntSettings.path.directory + config.pkg.gruntSettings.path.tasks);
 };
+
 
 /**
  * Load Config helper
