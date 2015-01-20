@@ -1,26 +1,14 @@
 module.exports = {
-    init: {
+    welcome: {
         options: {
-            title  : "Grunt",
-            message: "Welcome <%= env.USER %>"
+            title  : "<%= grunt.getTaskRunnerName() %> - Welcome",
+            message: "<%= grunt.getWelcomeMessage() %>"
         }
     },
     fail: {
         options: {
-            title: 'Fail',
-            message: 'I\'m sorry <%= env.USER %>. I\'m afraid I can\'t do that.'
-        }
-    },
-    other: {
-        options: {
-            title: 'Other',
-            message: 'FOIHW'
-        }
-    },
-    yep: {
-        options: {
-            title: 'Other',
-            message: 'FOIHW'
+            title: '<%= grunt.getTaskRunnerName() %> - Error',
+            message: "<%= grunt.getErrorMessage() %>"
         }
     }
 };

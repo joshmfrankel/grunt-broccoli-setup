@@ -25,17 +25,21 @@
     "grunt-contrib-sass": "^0.8.1",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-notify": "^0.4.1",
+    "grunt-prompt": "^1.3.0",
     "load-grunt-tasks": "^2.0.0"
   },
-  "gruntSettings": {
+  "settings": {
     "path": {
       "directory": "./grunt.js/",
       "tasks": "tasks/",
       "plugins": "plugins/",
+      "runners": "runners/",
       "sass": {
         "src": "./assets/css/test.scss",
         "dest": "./assets/css/task.css"
       }
-    }
+    },
+    "env": "dev",
+    "taskRunner": "hal-9000"
   }
 }
