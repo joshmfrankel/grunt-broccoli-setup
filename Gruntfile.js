@@ -1,13 +1,25 @@
+/**
+ * Main Gruntjs File
+ *
+ * @author Josh Frankel <josh@joshfrankel.me>
+ * @copyright Josh Frankel 2015
+ * @version 1.0
+ *
+ * Based off the work of Jimmy Klatt
+ * @link https://bitbucket.org/jklatt86/grunt-minion/overview
+ */
 module.exports = function(grunt) {
 
+    // Set initial config settings
     var config = {
       pkg: grunt.file.readJSON('package.json'),
-      env: process.env
+      env: process.env,
+      taskRunner: {}
     };
 
-    /////////////
-    // HELPERS //
-    /////////////
+    ////////////////////
+    // PUBLIC METHODS //
+    ////////////////////
 
     /**
      * Helper to return the settings path
@@ -25,62 +37,48 @@ module.exports = function(grunt) {
      * @author Jimmy Klatt
      * @return  {arr}
      */
-    grunt.loadRunners = function ()
+    grunt.setTaskRunnerList = function ()
     {
-      var files = grunt.file.expandMapping(["**/*.json"], "", { cwd: grunt.getSettingsPath().directory + grunt.getSettingsPath().runners });
+      var files = grunt.file.expandMapping(["**/*.json"], "", { cwd: grunt.getSettingsPath().directory + grunt.getSettingsPath().taskRunners });
       var filenames = [];
 
       files.forEach(function(element, index, array) {
         filenames.push(element.dest);
       });
 
-      return filenames;
+      config.taskRunner.list = filenames;
     };
 
     /**
-     * Build the user object for easy access later
+     * Set the parameter task runner or fallback to the default
+     *
+     * @param  {str}  runner  The task runner name
      */
-    config.runners = grunt.loadRunners();
-    config.user = {
-      name: process.env.USER.capitalize()
+    grunt.setTaskRunnerActive = function (runner)
+    {
+      // Use the default if there isn't a value in the parameter and default exists
+      if ((!runner || 0 === runner.length) && config.pkg.settings.taskRunner) {
+        runner = config.pkg.settings.taskRunner;
+      }
+
+      config.taskRunner.active = grunt.file.readJSON(grunt.getSettingsPath().directory + grunt.getSettingsPath().taskRunners + runner + '.json');
     };
 
-    // If there is a default taskrunner then load it
-    if (config.pkg.settings.taskRunner) {
-      config.taskRunner = {
-        current:
-          grunt.getSettingsPath().directory
-          + grunt.getSettingsPath().runners
-          + config.pkg.settings.taskRunner
-          + '.json'
-      };
-    } else {
-      // prompt user for which runner to use
-      // TODO
-    }
+    // Load the active and runner list
+    // Needs to be before other functions to prevent undefined errors
+    grunt.setTaskRunnerActive();
+    grunt.setTaskRunnerList();
 
-    // Load the task runner json config file
-    config.taskRunner.json = grunt.file.readJSON(config.taskRunner.current);
 
-    //grunt.log.writeln(JSON.stringify(config.runners, null, 2));
-
-    // Merge the initial config with the loaded configuration files
-    grunt.util._.extend(config, loadConfig(grunt.getSettingsPath().directory + grunt.getSettingsPath().plugins));
-
-    // Load config
-    grunt.initConfig(config);
-
-    //grunt.log.writeln(JSON.stringify(grunt.config('env').USER, null, 2));
-
-    // Require all the plugins
-    require('load-grunt-tasks')(grunt);
-
-    // Load all the external tasks
-    grunt.loadTasks(grunt.getSettingsPath().directory + grunt.getSettingsPath().tasks);
-
-    /////////////
-    // HELPERS //
-    /////////////
+    /**
+     * Return the current task runner's name
+     *
+     * @return  {str}
+     */
+    grunt.getTaskRunnerName = function ()
+    {
+      return config.taskRunner.active.name;
+    };
 
     /**
      * Grunt.js hack to remove task name from displaying in the console
@@ -106,16 +104,6 @@ module.exports = function(grunt) {
     };
 
     /**
-     * Return the current task runner's name
-     *
-     * @return  {str}
-     */
-    grunt.getTaskRunnerName = function ()
-    {
-      return config.taskRunner.json.name;
-    };
-
-    /**
      * Replace {USER} from the runner json file with the actual username
      *
      * @param   {str}  input  The input string
@@ -134,7 +122,7 @@ module.exports = function(grunt) {
      */
     grunt.getWelcomeMessage = function ()
     {
-      return grunt.replaceUserSymbol(grunt.returnRandom(config.taskRunner.json.welcome));
+      return grunt.replaceUserSymbol(grunt.returnRandom(config.taskRunner.active.welcome));
     };
 
     /**
@@ -144,10 +132,37 @@ module.exports = function(grunt) {
      */
     grunt.getErrorMessage = function ()
     {
-      return grunt.replaceUserSymbol(grunt.returnRandom(config.taskRunner.json.error));
+      return grunt.replaceUserSymbol(grunt.returnRandom(config.taskRunner.active.error));
     };
 
+    /**
+     * Build the user object for easy access later
+     */
+    config.user = {
+      name: process.env.USER.capitalize()
+    };
+
+    //grunt.log.writeln(JSON.stringify(config.taskRunner, null, 2));
+
+
+    ////////////////////////////
+    // Load Tasks and Configs //
+    // Auto require plugins   //
+    ////////////////////////////
+    require('load-grunt-config')(grunt, {
+
+      // Data passed into config var
+      data: {
+        config: config
+      }
+
+    });
 };
+
+
+/////////////////////
+// PRIVATE METHODS //
+/////////////////////
 
 function formatMessage (message) {
 
@@ -165,27 +180,6 @@ function formatMessage (message) {
 
 function insert(str, index, value) {
     return str.slice(0, index) + value + str.slice(index);
-}
-
-/**
- * Load Config helper
- *
- * @param   {str}  path  The path to the options folder
- * @link http://www.thomasboyt.com/2013/09/01/maintainable-grunt.html
- *
- * @return  {arr}
- */
-function loadConfig(path) {
-  var glob = require('glob');
-  var object = {};
-  var key;
-
-  glob.sync('*', {cwd: path}).forEach(function(option) {
-    key = option.replace(/\.js$/,'');
-    object[key] = require(path + option);
-  });
-
-  return object;
 }
 
 /**

@@ -1,0 +1,9 @@
+# Register Tasks Aliases File
+
+default:
+    - 'notify:welcome'
+    - 'asciify:welcome'
+    - 'prompt:mainMenu'
+
+watch-all-files:
+    - 'watch'
