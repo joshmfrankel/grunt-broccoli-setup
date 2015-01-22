@@ -3,7 +3,7 @@ module.exports = function (grunt) {
         welcome: {
             text: '<%= grunt.getTaskRunnerName() %>',
             options: {
-                font: 'larry3d',
+                font: '<%= grunt.getTaskRunnerFont() %>',
                 log: true
             }
         }

@@ -1,16 +1,18 @@
 module.exports = function (grunt) {
     return {
         js: {
-            files: ['assets/js/**/*.js'],
+            files: [grunt.getSettingsPath().js],
             options: {
                 livereload: true
-            }
+            },
+            tasks: ['notify:success']
         },
         php: {
-            files: ['inventory/**/*.php'],
+            files: [grunt.getSettingsPath().php],
             options: {
                 livereload: true
-            }
+            },
+            tasks: ['notify:success']
         }
     };
 };

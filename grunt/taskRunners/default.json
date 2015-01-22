@@ -1,0 +1,13 @@
+{
+    "name": "Default",
+    "font": "graffiti",
+    "welcome": [
+        "Grunt.js loaded"
+    ],
+    "success": [
+        "Task successfully completed"
+    ],
+    "error": [
+        "Task encountered an error"
+    ]
+}

@@ -3,6 +3,7 @@
 default:
     - 'notify:welcome'
     - 'asciify:welcome'
+    - 'console:welcome'
     - 'prompt:mainMenu'
 
 watch-all-files:

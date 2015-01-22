@@ -7,21 +7,70 @@ module.exports = function (grunt) {
                     type: 'list',
                     message: 'Choose a task from the list',
                     choices: [
-                        { name: 'Change task runner personality ', value: 'changeTaskRunner' },
-                        { name: "Watch", value: 'prompt:watch' },
-                        { name: 'Change development environment', value: 'prompt:environment'}
+                        { name: 'Change task runner personality ', value: 'prompt:changeTaskRunner' },
+                        { name: "Watch files", value: 'prompt:watch' },
+                        { name: "Vagrant", value: 'prompt:vagrant' },
+                        { name: 'Change development environment', value: 'prompt:changeEnvironment'}
                     ]
                 }],
                 then: function (results) {
-                    //grunt.log.writeln(JSON.stringify(grunt.config('taskRunner'), null, 2));
                     grunt.task.run(results.value);
-
-                    //console.log(results.value);
-
                 }
             }
         },
-        environment: {
+        watch: {
+            options: {
+                questions: [{
+                    config: 'value',
+                    type: 'list',
+                    message: 'Which files would you like to poll for changes?',
+                    choices: [
+                        { name: 'All files', value: 'watch-all-files' },
+                        { name: 'PHP', value: 'watch:php' },
+                        { name: 'JS', value: 'watch:js' }
+                    ]
+                }],
+                then: function (results) {
+                    grunt.task.run(results.value);
+                }
+            }
+        },
+        vagrant: {
+            options: {
+                questions: [{
+                    config: 'value',
+                    type: 'list',
+                    message: 'Choose a Vagrant action.',
+                    choices: [
+                        { name: 'Vagrant Up', value: 'shell:vagrant' }
+                    ]
+                }],
+                then: function (results) {
+                    grunt.task.run(results.value);
+                    grunt.task.run('prompt:mainMenu');
+                }
+            }
+        },
+        ////////////////////
+        // CONFIG OPTIONS //
+        ////////////////////
+        changeTaskRunner: {
+            options: {
+                questions: [{
+                    config: 'value',
+                    type: 'list',
+                    message: 'Choose a new personality',
+                    choices: grunt.getTaskRunnerList()
+                }],
+                then: function (results) {
+                    grunt.setTaskRunnerActive(results.value);
+
+                    // Reset service
+                    grunt.task.run('default');
+                }
+            }
+        },
+        changeEnvironment: {
             options: {
                 questions: [{
                     config: 'prompt.env',

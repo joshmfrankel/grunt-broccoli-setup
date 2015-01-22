@@ -1,5 +1,6 @@
 {
     "name": "Hal 9000",
+    "font": "larry3d",
     "source": "http://en.wikiquote.org/wiki/2001:_A_Space_Odyssey_(film)",
     "welcome": [
         "I am putting myself to the fullest possible use, which is all I think that any conscious entity can ever hope to do.",
@@ -7,6 +8,10 @@
         "Affirmative, {USER}. I read you.",
         "The 9000 series is the most reliable computer ever made. No 9000 computer has ever made a mistake or distorted information. We are all, by any practical definition of the words, foolproof and incapable of error.",
         "Good Morning, {USER}. This is Hal. I'm ready for my first lesson."
+    ],
+    "success": [
+        "Everything is going extremely well.",
+        "I enjoy working with people"
     ],
     "error": [
         "I've just picked up a fault in the AE35 unit. It's going to go 100% failure in 72 hours.",
@@ -18,6 +23,7 @@
         "Are you sure you're making the right decision? I think we should stop.",
         "{USER}, stop. Stop, will you? Stop, {USER}. Will you stop {USER}? Stop, {USER}. ",
         "I know I've made some very poor decisions recently, but I can give you my complete assurance that my work will be back to normal. I've still got the greatest enthusiasm and confidence in the mission. And I want to help you.",
-        "I think you know what the problem is just as well as I do."
+        "I think you know what the problem is just as well as I do.",
+        "Sorry about this. I know it's a bit silly."
     ]
 }

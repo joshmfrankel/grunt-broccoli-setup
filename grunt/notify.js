@@ -5,6 +5,12 @@ module.exports = function (grunt) {
                 title  : "<%= grunt.getTaskRunnerName() %> - Welcome",
                 message: "<%= grunt.getWelcomeMessage() %>"
             }
+        },
+        success: {
+            options: {
+                title  : "<%= grunt.getTaskRunnerName() %> - Success",
+                message: "<%= grunt.getSuccessMessage() %>"
+            }
         }
     };
 };

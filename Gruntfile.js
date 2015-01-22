@@ -57,11 +57,16 @@ module.exports = function(grunt) {
     grunt.setTaskRunnerActive = function (runner)
     {
       // Use the default if there isn't a value in the parameter and default exists
-      if ((!runner || 0 === runner.length) && config.pkg.settings.taskRunner) {
-        runner = config.pkg.settings.taskRunner;
+
+      if (!runner || 0 === runner.length) {
+        if (config.pkg.settings.taskRunner) {
+          runner = config.pkg.settings.taskRunner + '.json';
+        } else {
+          runner = 'default.json';
+        }
       }
 
-      config.taskRunner.active = grunt.file.readJSON(grunt.getSettingsPath().directory + grunt.getSettingsPath().taskRunners + runner + '.json');
+      config.taskRunner.active = grunt.file.readJSON(grunt.getSettingsPath().directory + grunt.getSettingsPath().taskRunners + runner);
     };
 
     // Load the active and runner list
@@ -69,7 +74,10 @@ module.exports = function(grunt) {
     grunt.setTaskRunnerActive();
     grunt.setTaskRunnerList();
 
-
+    grunt.getTaskRunnerList = function ()
+    {
+      return config.taskRunner.list;
+    }
     /**
      * Return the current task runner's name
      *
@@ -78,6 +86,16 @@ module.exports = function(grunt) {
     grunt.getTaskRunnerName = function ()
     {
       return config.taskRunner.active.name;
+    };
+
+    /**
+     * Return the current task runner's name
+     *
+     * @return  {str}
+     */
+    grunt.getTaskRunnerFont = function ()
+    {
+      return config.taskRunner.active.font;
     };
 
     /**
@@ -126,6 +144,16 @@ module.exports = function(grunt) {
     };
 
     /**
+     * Get the welcome message
+     *
+     * @return  {str}
+     */
+    grunt.getSuccessMessage = function ()
+    {
+      return grunt.replaceUserSymbol(grunt.returnRandom(config.taskRunner.active.success));
+    };
+
+    /**
      * Get the error message
      *
      * @return  {str}
@@ -143,7 +171,6 @@ module.exports = function(grunt) {
     };
 
     //grunt.log.writeln(JSON.stringify(config.taskRunner, null, 2));
-
 
     ////////////////////////////
     // Load Tasks and Configs //
