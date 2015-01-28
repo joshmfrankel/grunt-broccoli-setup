@@ -27,7 +27,9 @@ module.exports = function (grunt) {
                     choices: [
                         { name: 'All files', value: 'watch-all-files' },
                         { name: 'PHP', value: 'watch:php' },
-                        { name: 'JS', value: 'watch:js' }
+                        { name: 'Sass', value: 'watch:sass' },
+                        { name: 'JS', value: 'watch:js' },
+                        { name: 'Back to Main Menu', value: 'prompt:mainMenu' }
                     ]
                 }],
                 then: function (results) {
@@ -42,12 +44,17 @@ module.exports = function (grunt) {
                     type: 'list',
                     message: 'Choose a Vagrant action.',
                     choices: [
-                        { name: 'Vagrant Up', value: 'shell:vagrant' }
+                        { name: 'Vagrant Up', value: 'shell:vagrant' },
+                        { name: 'Back to Main Menu', value: 'prompt:mainMenu' }
                     ]
                 }],
                 then: function (results) {
                     grunt.task.run(results.value);
-                    grunt.task.run('prompt:mainMenu');
+
+                    if (results.value === 'shell:vagrant') {
+                        grunt.task.run('prompt:mainMenu');
+                    }
+
                 }
             }
         },
@@ -73,14 +80,17 @@ module.exports = function (grunt) {
         changeEnvironment: {
             options: {
                 questions: [{
-                    config: 'prompt.env',
+                    config: 'grunt.config("config").pkg.settings.env',
                     type: 'list',
                     message: 'Which environment do you want to work in?',
                     choices: [
                         { name: 'Development', value: 'dev' },
                         { name: 'Production', value: 'prod' }
                     ]
-                }]
+                }],
+                then: function (results) {
+                    console.log(grunt.config("config").pkg.settings.env);
+                }
             }
         },
     };

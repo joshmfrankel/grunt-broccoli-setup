@@ -35,8 +35,11 @@
       "directory": "./grunt/",
       "taskRunners": "taskRunners/",
       "sass": {
-        "src": "./assets/css/test.scss",
-        "dest": "./assets/css/task.css"
+        "watch": [
+          "assets/scss/**/*.scss"
+        ],
+        "dest": "./assets/css/specific/",
+        "src": "./assets/scss/"
       },
       "vagrant": "/home/josh/VirtualBox VMs/vagrant",
       "js": [

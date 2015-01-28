@@ -32,6 +32,22 @@ module.exports = function(grunt) {
     };
 
     /**
+     * Helper to return the user settings
+     *
+     * @return  {json}
+     */
+    grunt.getSettings = function ()
+    {
+      return config.pkg.settings;
+    };
+
+    grunt.setSetting = function (name, value)
+    {
+      console.log(name);
+      console.log(value);
+    };
+
+    /**
      * Load the custom runners into the project
      *
      * @author Jimmy Klatt
